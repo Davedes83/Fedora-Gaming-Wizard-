@@ -46,6 +46,9 @@ Download the `.rpm` for your Fedora version from [GitHub Releases](https://githu
 
 > After installing from Discover, close it and launch the app from your application menu rather than from the Discover install screen.
 
+### Polkit
+If you are using this in KDE, Workstation or another spin, then authentication will be baked in. If you are building out your Fedora install without a Desktop Environment to start and using Noctalia as your shell, you will need a polkit service. I would recommend the Noctalia built in one which is in in Noctalia  `Settings > Security > Polkit`
+
 ---
 
 ## Build from Source
