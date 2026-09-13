@@ -68,6 +68,8 @@ void BrowsersPage::initializePage()
     addItem("chrome",  "Google Chrome", "Full Chrome with Widevine DRM and Google sync.",  false);
     addItem("brave",   "Brave",         "Privacy-focused browser with built-in ad blocking.", false);
     addItem("vivaldi",    "Vivaldi",                    "Highly customisable Chromium-based browser.",                   false);
+    addItem("edge",    "Microsoft Edge", "Chromium-based browser with Microsoft account sync.", false);
+    addItem("helium",  "Helium  (COPR)", "Privacy-focused, ungoogled Chromium-based browser.", false);
 
     addSection("Privacy-focused (Flatpak from Flathub)");
     addItem("librewolf", "LibreWolf  (Flatpak)", "Firefox fork focused on privacy, security, and freedom.", false);
@@ -81,6 +83,8 @@ void BrowsersPage::initializePage()
     _checks.append({"chrome", []{ return isFlatpakInstalled("com.google.Chrome"); }});
     _checks.append({"brave", []{ return isDnfInstalled("brave-browser"); }});
     _checks.append({"vivaldi",   []{ return isDnfInstalled("vivaldi-stable"); }});
+    _checks.append({"edge",   []{ return isDnfInstalled("microsoft-edge-stable"); }});
+    _checks.append({"helium", []{ return isDnfInstalled("helium-bin"); }});
     _checks.append({"librewolf", []{ return isFlatpakInstalled("io.gitlab.librewolf-community"); }});
     runChecksAsync(this, _checks, [this](QMap<QString,bool> results) {
         for (auto it = results.constBegin(); it != results.constEnd(); ++it) {

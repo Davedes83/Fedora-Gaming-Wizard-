@@ -13,7 +13,6 @@
 #include "pages/commspage.h"
 #include "pages/cachyospage.h"
 #include "pages/lgltoolkitpage.h"
-#include "pages/kineticwepage.h"
 #include "pages/reviewpage.h"
 #include "pages/installpage.h"
 #include "pages/donepage.h"
@@ -53,7 +52,6 @@ MainWizard::MainWizard(QWidget *parent) : QWizard(parent)
     setPage(PAGE_COMMS,       new CommsPage(this));
     setPage(PAGE_CACHYOS,     new CachyOSPage(this));
     setPage(PAGE_TOOLKIT,     new LglToolKitPage(this));
-    setPage(PAGE_KINETICWE,   new KineticWEPage(this));
     setPage(PAGE_REVIEW,      new ReviewPage(this));
     setPage(PAGE_INSTALL,     new InstallPage(this));
     setPage(PAGE_DONE,        new DonePage(this));
@@ -250,7 +248,8 @@ QList<InstallStep> MainWizard::buildSteps() const
 
     // ---- System Tools ----
     for (const auto &pkg : QStringList{
-             "fastfetch", "btop", "htop", "xrdp", "cmatrix", "distrobox", "timeshift"}) {
+             "fastfetch", "btop", "htop", "xrdp", "cmatrix", "distrobox", "timeshift",
+             "cbonsai", "podman"}) {
         if (get(QString("systools/%1").arg(pkg)))
             S << dnfStep(QString("systool_%1").arg(pkg), pkg);
     }
@@ -371,7 +370,8 @@ QList<InstallStep> MainWizard::buildSteps() const
 
     // ---- Virtualisation ----
     const bool anyVirt = get("virt/virtmanager") || get("virt/libvirt") ||
-                         get("virt/virt_install") || get("virt/virt_viewer");
+                         get("virt/virt_install") || get("virt/virt_viewer") ||
+                         get("virt/vmcurator");
     for (const auto &[key, pkg] : QList<QPair<QString,QString>>{
             {"virtmanager",  "virt-manager"},
             {"libvirt",      "libvirt"},
@@ -380,6 +380,11 @@ QList<InstallStep> MainWizard::buildSteps() const
         }) {
         if (get(QString("virt/%1").arg(key)))
             S << dnfStep(QString("virt_%1").arg(key), pkg);
+    }
+    if (get("virt/vmcurator")) {
+        S << InstallStep{"virt_vmcurator_copr", "Enable VM Curator COPR",
+            {"/usr/bin/dnf", "copr", "enable", "-y", "linuxgamerlife/lgl-vm-curator"}};
+        S << dnfStep("virt_vmcurator_install", "vm-curator");
     }
     if (anyVirt) {
         S << InstallStep{"libvirtd_enable", "Enable libvirtd service",
@@ -421,6 +426,22 @@ QList<InstallStep> MainWizard::buildSteps() const
 
     if (get("browsers/librewolf"))
         S << flatpakStep("librewolf", "io.gitlab.librewolf-community", "LibreWolf");
+
+    if (get("browsers/edge")) {
+        S << InstallStep{"edge_repo_dl", "Download Microsoft Edge repo file",
+            {"/usr/bin/curl", "-fsSL", "-o",
+             tmpPath("microsoft-edge.repo"),
+             "https://packages.microsoft.com/yumrepos/edge/config.repo"}};
+        S << InstallStep{"edge_repo_add", "Add Microsoft Edge repo",
+            {"/usr/bin/dnf", "config-manager", "addrepo", "--from-repofile", tmpPath("microsoft-edge.repo")}};
+        S << dnfStep("edge", "microsoft-edge-stable");
+    }
+
+    if (get("browsers/helium")) {
+        S << InstallStep{"helium_copr", "Enable Helium COPR",
+            {"/usr/bin/dnf", "copr", "enable", "-y", "imput/helium"}};
+        S << dnfStep("helium_install", "helium-bin");
+    }
 
     // ---- Communication & Productivity ----
     if (get("comms/office_calc"))
@@ -488,23 +509,13 @@ QList<InstallStep> MainWizard::buildSteps() const
             {"lgl_emoji_picker",         "lgl-emoji-picker",         "linuxgamerlife/lgl-emoji-picker"},
             {"lgl_colour_picker",        "lgl-colour-picker",        "linuxgamerlife/lgl-colour-picker"},
             {"lgl_powerprofile_manager", "lgl-powerprofile-manager", "linuxgamerlife/lgl-powerprofile-manager"},
+            {"lgl_papercutter",          "lgl-papercutter",          "linuxgamerlife/lgl-papercutter"},
         }) {
         if (get(QString("toolkit/%1").arg(key))) {
             S << InstallStep{QString("toolkit_%1_copr").arg(key), QString("Enable %1 COPR").arg(pkg),
                 {"/usr/bin/dnf", "copr", "enable", "-y", repo}};
             S << dnfStep(QString("toolkit_%1_install").arg(key), pkg);
         }
-    }
-
-    // ---- KineticWE ----
-    // Obsoletes stock kwin/kwin-common/kwin-libs — see the IMPORTANT notice on its page.
-    if (get("kineticwe/install")) {
-        S << InstallStep{"kineticwe_copr1", "Enable Hyprland COPR",
-            {"/usr/bin/dnf", "copr", "enable", "-y", "lionheartp/Hyprland"}};
-        S << InstallStep{"kineticwe_copr2", "Enable KineticWE COPR",
-            {"/usr/bin/dnf", "copr", "enable", "-y", "theblackdon/kineticwe"}};
-        S << InstallStep{"kineticwe_install", "Install kineticwe and noctalia-git",
-            {"/usr/bin/dnf", "-y", "install", "kineticwe", "noctalia-git"}};
     }
 
     // ---- Final cleanup / tweaks ----
@@ -620,10 +631,11 @@ int MainWizard::estimateDiskMB() const
     if (get("repos/rpmfusion_nonfree")) mb += 1;
 
     for (const auto &pkg : QStringList{
-             "fastfetch", "btop", "htop", "xrdp", "cmatrix", "distrobox", "timeshift"})
+             "fastfetch", "btop", "htop", "xrdp", "cmatrix", "distrobox", "timeshift", "cbonsai"})
         if (get(QString("systools/%1").arg(pkg))) mb += 10;
     if (get("systools/flatseal")) mb += 10;
     if (get("systools/tldr"))     mb += 5;
+    if (get("systools/podman"))   mb += 80;
 
     if (get("python/pip"))  mb += 10;
     if (get("python/pipx") || get("systools/tldr") || get("content/ytdlp")) mb += 5;
@@ -667,6 +679,7 @@ int MainWizard::estimateDiskMB() const
 
     if (get("virt/virtmanager"))  mb += 30;
     if (get("virt/libvirt"))      mb += 50;
+    if (get("virt/vmcurator"))    mb += 20;
 
     if (get("browsers/firefox"))   mb += 250;
     if (get("browsers/chromium"))  mb += 300;
@@ -674,6 +687,8 @@ int MainWizard::estimateDiskMB() const
     if (get("browsers/brave"))     mb += 415;
     if (get("browsers/vivaldi"))   mb += 423;
     if (get("browsers/librewolf")) mb += 300;
+    if (get("browsers/edge"))      mb += 400;
+    if (get("browsers/helium"))    mb += 200;
 
     if (get("comms/office_calc"))   mb += 250;
     if (get("comms/office_writer")) mb += 250;
@@ -690,8 +705,7 @@ int MainWizard::estimateDiskMB() const
     if (get("toolkit/lgl_emoji_picker"))           mb += 15;
     if (get("toolkit/lgl_colour_picker"))          mb += 15;
     if (get("toolkit/lgl_powerprofile_manager"))   mb += 15;
-
-    if (get("kineticwe/install")) mb += 400;
+    if (get("toolkit/lgl_papercutter"))             mb += 15;
 
     const bool anyFlatpak =
         get("gaming/heroic")    || get("gaming/protonup")   ||

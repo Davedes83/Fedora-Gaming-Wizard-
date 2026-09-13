@@ -55,6 +55,18 @@
   </requires>
 
   <releases>
+    <release version="2.1.0" date="2026-09-13">
+      <description>
+        <p>New tools, and KineticWE removed.</p>
+        <ul>
+          <li>Added Microsoft Edge and Helium to Browsers</li>
+          <li>Added cbonsai and podman to System Tools</li>
+          <li>Added LGL Papercutter to LGL Tool Kit</li>
+          <li>Added VM Curator to Virtualisation</li>
+          <li>Removed the KineticWE page — no longer supported</li>
+        </ul>
+      </description>
+    </release>
     <release version="2.0.3" date="2026-07-12">
       <description>
         <p>Bug fix release.</p>

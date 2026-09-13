@@ -2,6 +2,19 @@
 
 ---
 
+## [2.1.0] — 2026-09-13
+
+### Added
+- Microsoft Edge and Helium added to Browsers (Edge via Microsoft's official repo, Helium via COPR `imput/helium`)
+- cbonsai and podman added to System Tools
+- LGL Papercutter (wallpaper editor) added to LGL Tool Kit, installed via COPR
+- VM Curator (LinuxGamerLife's fork) added to Virtualisation — TUI for building/managing QEMU/KVM VMs with 3D acceleration, installed via COPR
+
+### Removed
+- KineticWE page — KWE is no longer supported
+
+---
+
 ## [2.0.3] — 2026-07-12
 
 ### Fixed

@@ -1,5 +1,5 @@
 Name:           lgl-system-loadout
-Version:        2.0.3
+Version:        2.1.0
 Release:        1%{?dist}
 Summary:        Guided setup wizard for Fedora — gaming, content creation, and development
 
@@ -116,6 +116,13 @@ fi
 %{_datadir}/pixmaps/lgl-system-loadout.png
 
 %changelog
+* Sun Sep 13 2026 LinuxGamerLife - 2.1.0-1
+- Added Microsoft Edge and Helium to Browsers
+- Added cbonsai and podman to System Tools
+- Added LGL Papercutter to LGL Tool Kit
+- Added VM Curator to Virtualisation
+- Removed KineticWE page (no longer supported)
+
 * Sun Jul 12 2026 LinuxGamerLife - 2.0.3-1
 - Fixed Flatpak installs failing for Flatseal, Zed, and GitHub Desktop — their
   install steps ran before the Flathub remote was added

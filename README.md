@@ -41,8 +41,8 @@ Launch **LGL System Loadout** from your application menu.
 
 Download the `.rpm` for your Fedora version from [GitHub Releases](https://github.com/linuxgamerlife/lgl-system-loadout/releases) and double-click to install via Discover.
 
-- `lgl-system-loadout-2.0.3-1.fc43.x86_64.rpm` — Fedora 43
-- `lgl-system-loadout-2.0.3-1.fc44.x86_64.rpm` — Fedora 44
+- `lgl-system-loadout-2.1.0-1.fc43.x86_64.rpm` — Fedora 43
+- `lgl-system-loadout-2.1.0-1.fc44.x86_64.rpm` — Fedora 44
 
 > After installing from Discover, close it and launch the app from your application menu rather than from the Discover install screen.
 
@@ -72,19 +72,18 @@ make -j$(nproc)
 |---|---|
 | **System Update** | Optional `dnf upgrade --refresh` before installing |
 | **Repositories** | RPM Fusion Free & NonFree |
-| **System Tools** | btop, fastfetch, htop, xrdp, cmatrix, tldr, distrobox, timeshift, Flatseal |
+| **System Tools** | btop, fastfetch, htop, xrdp, cmatrix, cbonsai, podman, tldr, distrobox, timeshift, Flatseal |
 | **System Tweaks** | Disable NetworkManager-wait-online · Clean DNF cache |
 | **Development Tools** | pip, pipx, Zed, GitHub Desktop |
 | **Multimedia** | ffmpeg, GStreamer plugins, VLC |
 | **Content Creation** | OBS Studio, Kdenlive, GIMP, Inkscape, Audacity, Tenacity, Blender, yt-dlp |
 | **GPU Drivers** | AMD (Mesa, Vulkan, VA-API) |
 | **Gaming** | Steam, Lutris, Wine, Protontricks, MangoHud, vkBasalt, GOverlay, Controller Support, Heroic, Faugus, ProtonPlus, ProtonUp-Qt |
-| **Virtualisation** | virt-manager, libvirt |
-| **Browsers** | Chromium, Firefox, Chrome, Brave, Vivaldi, LibreWolf |
+| **Virtualisation** | virt-manager, libvirt, virt-install, virt-viewer, VM Curator |
+| **Browsers** | Chromium, Firefox, Chrome, Brave, Vivaldi, Microsoft Edge, Helium, LibreWolf |
 | **Communication & Productivity** | LibreOffice Calc, LibreOffice Writer, Thunderbird, Discord, Vesktop, Spotify |
 | **CachyOS Kernel** | kernel-cachyos, kernel-cachyos-devel-matched |
-| **LGL Tool Kit** | LGL SCXCTL Manager, LGL DNF Helper, LGL Emoji Picker, LGL Colour Picker, LGL Power Profile Manager |
-| **KineticWE** | Tiling KWin Wayland compositor — obsoletes stock KWin, see in-app warning |
+| **LGL Tool Kit** | LGL SCXCTL Manager, LGL DNF Helper, LGL Emoji Picker, LGL Colour Picker, LGL Power Profile Manager, LGL Papercutter |
 
 ---
 

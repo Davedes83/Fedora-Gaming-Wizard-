@@ -71,6 +71,7 @@ void VirtPage::initializePage()
         {"libvirt",      "libvirt",       "Virtualisation API and daemon.",                                "libvirt"},
         {"virt_install", "virt-install",  "Command-line tool for creating new virtual machines.",          "virt-install"},
         {"virt_viewer",  "virt-viewer",   "Lightweight viewer for VM consoles via SPICE or VNC.",          "virt-viewer"},
+        {"vmcurator",    "VM Curator  (COPR)", "LinuxGamerLife's fork of VM Curator - a fast, friendly TUI for building and managing QEMU/KVM virtual machines with working 3D acceleration.", "vm-curator"},
     };
 
     for (const auto &[key, label, desc, pkg] : items) {
@@ -100,6 +101,7 @@ void VirtPage::initializePage()
     _checks.append({"libvirt", []{ return isDnfInstalled("libvirt"); }});
     _checks.append({"virt_install", []{ return isDnfInstalled("virt-install"); }});
     _checks.append({"virt_viewer", []{ return isDnfInstalled("virt-viewer"); }});
+    _checks.append({"vmcurator", []{ return isDnfInstalled("vm-curator"); }});
     runChecksAsync(this, _checks, [this](QMap<QString,bool> results) {
         for (auto it = results.constBegin(); it != results.constEnd(); ++it) {
             if (!m_boxes.contains(it.key())) continue;

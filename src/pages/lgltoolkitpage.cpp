@@ -56,18 +56,20 @@ void LglToolKitPage::initializePage()
     };
 
     addItem("lgl_scxctl_manager", "LGL SCXCTL Manager",
-        "Qt6 GUI for managing sched-ext BPF schedulers via scxctl. Start, stop, and switch schedulers, "
-        "manage scx_loader.service autostart, and browse per-scheduler flags. "
-        "Pulls in scx-tools and scx-scheds automatically if not already installed.");
+        "Qt6 GUI for managing sched-ext BPF schedulers via scxctl - start, stop, switch schedulers, and "
+        "browse per-scheduler flags. Installs scx-tools/scx-scheds automatically if needed.");
     addItem("lgl_dnf_helper", "LGL DNF Helper",
-        "Inspect installed RPM packages and DNF5 dependency relationships - what a package is, why it's "
-        "installed, what depends on it, and which repo it came from. Early read-only prototype.");
+        "Inspect installed RPM packages and DNF5 dependencies - what a package is, why it's installed, "
+        "and what depends on it. Early read-only prototype.");
     addItem("lgl_emoji_picker", "LGL Emoji Picker",
         "Small Qt6 emoji picker with search, recent history, and Wayland/X11 clipboard support.");
     addItem("lgl_colour_picker", "LGL Colour Picker",
         "Small Qt6 utility for sampling a colour from the screen and copying it in ready-to-paste formats.");
     addItem("lgl_powerprofile_manager", "LGL Power Profile Manager",
         "Simple, desktop-friendly interface for switching between tuned/power-profiles-daemon profiles.");
+    addItem("lgl_papercutter", "LGL Papercutter",
+        "Graphical wallpaper editor - resize, position, zoom, and crop wallpapers to fit your display, "
+        "including custom resolutions and ultrawide monitors.");
 
     layout->addStretch();
     scroll->setWidget(inner);
@@ -79,6 +81,7 @@ void LglToolKitPage::initializePage()
     _checks.append({"lgl_emoji_picker",          []{ return isDnfInstalled("lgl-emoji-picker"); }});
     _checks.append({"lgl_colour_picker",         []{ return isDnfInstalled("lgl-colour-picker"); }});
     _checks.append({"lgl_powerprofile_manager",  []{ return isDnfInstalled("lgl-powerprofile-manager"); }});
+    _checks.append({"lgl_papercutter",           []{ return isDnfInstalled("lgl-papercutter"); }});
 
     runChecksAsync(this, _checks, [this](QMap<QString,bool> results) {
         for (auto it = results.constBegin(); it != results.constEnd(); ++it) {

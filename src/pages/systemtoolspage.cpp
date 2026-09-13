@@ -70,6 +70,8 @@ void SystemToolsPage::initializePage()
         {"cmatrix",       "cmatrix",       "Terminal screensaver in the style of \"The Matrix\"."},
         {"tldr",          "tldr  (via pipx)", "Simplified man pages with quick examples. Installs pipx first if needed."},
         {"distrobox",     "distrobox",     "Run other Linux distros in containers, integrated with your desktop."},
+        {"cbonsai",       "cbonsai",       "Grow procedurally generated bonsai trees in your terminal."},
+        {"podman",        "podman",        "Daemonless container engine for building and running OCI containers."},
     };
     const QList<std::tuple<QString,QString,QString>> guiItems = {
         {"timeshift",     "timeshift",           "System restore and snapshot utility."},

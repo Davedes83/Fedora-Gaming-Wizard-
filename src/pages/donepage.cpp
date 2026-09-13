@@ -66,7 +66,7 @@ void DonePage::initializePage()
         m_summaryLabel->setText(
             "<p><b>All selected packages and tools have been installed.</b></p>"
             "<p>A reboot is recommended to ensure all changes take effect, "
-            "especially if the CachyOS kernel, GPU drivers, virtualisation packages, or KineticWE were installed.</p>"
+            "especially if the CachyOS kernel, GPU drivers, or virtualisation packages were installed.</p>"
         );
         m_errorDetail->hide();
         m_copyErrorsBtn->hide();

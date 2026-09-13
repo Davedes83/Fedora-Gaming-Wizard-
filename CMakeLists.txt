@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(lgl-system-loadout VERSION 2.0.3 LANGUAGES CXX)
+project(lgl-system-loadout VERSION 2.1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -53,7 +53,6 @@ qt_add_executable(lgl-system-loadout
     ${PROJECT_SOURCE_DIR}/src/pages/commspage.cpp       ${PROJECT_SOURCE_DIR}/src/pages/commspage.h
     ${PROJECT_SOURCE_DIR}/src/pages/cachyospage.cpp     ${PROJECT_SOURCE_DIR}/src/pages/cachyospage.h
     ${PROJECT_SOURCE_DIR}/src/pages/lgltoolkitpage.cpp  ${PROJECT_SOURCE_DIR}/src/pages/lgltoolkitpage.h
-    ${PROJECT_SOURCE_DIR}/src/pages/kineticwepage.cpp   ${PROJECT_SOURCE_DIR}/src/pages/kineticwepage.h
     ${PROJECT_SOURCE_DIR}/src/pages/reviewpage.cpp      ${PROJECT_SOURCE_DIR}/src/pages/reviewpage.h
     ${PROJECT_SOURCE_DIR}/src/pages/installpage.cpp  ${PROJECT_SOURCE_DIR}/src/pages/installpage.h
     ${PROJECT_SOURCE_DIR}/src/pages/donepage.cpp        ${PROJECT_SOURCE_DIR}/src/pages/donepage.h
